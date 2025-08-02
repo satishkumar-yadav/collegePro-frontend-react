@@ -49,7 +49,7 @@ const LoginRegisterModal = ({ onClose }) => {   // export default function Login
       const data = await res.json();
       alert(data.message);
     } catch (err) {
-      alert('Something went wrong. Please try again.');
+      alert('Something went wrong. Please try again.',err);
     }
   };
 

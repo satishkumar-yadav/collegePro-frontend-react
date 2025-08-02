@@ -38,6 +38,8 @@ export default Dashboard;
 
 
 /*
+🛡️ 4. Fetch Protected Dashboard
+📄 components/Dashboard.jsx
 
 import React, { useEffect, useState } from 'react';
 import API from '../api/api';

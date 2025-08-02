@@ -1,8 +1,20 @@
 import { useEffect, useState } from 'react';
 import API from '../api/api';
+import { isAdmin } from '../utils/auth';
 
 export default function AdminPanel() {
   const [pendingUsers, setPendingUsers] = useState([]);
+
+   useEffect(() => {
+    if (!isAdmin()) {
+      alert("Access denied: Admins only");
+      window.location.href = '/';
+      return;
+    }
+
+    fetchPending();
+  }, []);
+
 
   const fetchPending = async () => {
     try {
