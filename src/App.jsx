@@ -2,13 +2,13 @@
 //import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 //import AdminPanel from './AdminDashboard';
 //import Dashboard from './Dashboard';
-//import Home from './Home';
+//import Home from './Home'; 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import AppRoutes from './Router';
 // import Router from './router';  
 
-export default function App() {
+export default function App() { 
   return (
 
      <AuthProvider>
@@ -33,8 +33,6 @@ export default function App() {
 
 /* updated
 
-// src/App.jsx
-import './App.css';
 import AppRouter from './router';
 
 function App() {

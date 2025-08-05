@@ -1,0 +1,11 @@
+# Ignore React Modules
+# /collegePro-frontend-react/node_modules/
+/node_modules/
+
+# Ignore Env
+/*.env 
+
+/hui.txt 
+
+# Allow Dockerfile
+! /*Dockerfile

@@ -1,7 +1,7 @@
 // src/components/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-// import { useAuth } from "../hooks/useAuth";
+// import { useAuth2 } from "../hooks/useAuth";
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
   const { isLoggedIn, role } = useAuth();
@@ -18,7 +18,7 @@ export default ProtectedRoute;
 /* custom hooks - hooks/useAuth
 
 export default function ProtectedRoute({ children, role }) {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuth2();
 
   if (loading) return <p>Loading...</p>;
   if (!user) return <Navigate to="/auth" />;

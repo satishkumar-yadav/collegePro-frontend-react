@@ -1,5 +1,5 @@
 // src/Router.jsx
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import AdminPanel from './AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
@@ -12,37 +12,44 @@ import AdminAddRecords from './pages/AdminAddRecords';
 import PlacementsAchievements from './pages/PlacementsAchievements';
 
 const AppRoutes = () => {
-  const { isLoggedIn, role } = useAuth();
+  const { isLoggedIn, role } = useAuth(); 
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
       <Route path="/dashboard" element={
         <ProtectedRoute allowedRoles={['Student', 'Faculty', 'Admin']}>
           <Dashboard />
         </ProtectedRoute>
       } />
+
       <Route path="/admin" element={
         <ProtectedRoute allowedRoles={['Admin']}>
           <AdminPanel />
-        </ProtectedRoute>
+        </ProtectedRoute> 
       } />
+
+      <Route path="/admin/add-records" element={<AdminAddRecords />} />
+
       <Route path="/student" element={
         <ProtectedRoute allowedRoles={['Student']}>
           <StudentDashboard />
         </ProtectedRoute>
       } />
+
       <Route path="/faculty" element={
         <ProtectedRoute allowedRoles={['Faculty']}>
           <FacultyDashboard />
         </ProtectedRoute>
       } />
+
       {/* Fallback route */}
-      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/placements" element={<PlacementsAchievements />} />
-      
-<Route path="/admin/add-records" element={<AdminAddRecords />} />
-      <Route path="*" element={<Navigate to="/" />} />
+
+      {/* <Route path="*" element={<Navigate to="/" />} />  */}
+       <Route path="*" element={<div>404 – Page Not Found</div>} />
+
     </Routes>
   );
 };
@@ -82,20 +89,5 @@ import ProtectedRoute from "./components/ProtectedRoute";
   <ProtectedRoute role="student"><StudentDashboard /></ProtectedRoute>
 } />
 
-<Route path="/faculty" element={
-  <ProtectedRoute role="faculty"><FacultyDashboard /></ProtectedRoute>
-} />
-
-<Route path="/admin" element={
-  <ProtectedRoute role="admin"><AdminPanel /></ProtectedRoute>
-} />
-
-<Route path="/admin/add-records" element={
-  <ProtectedRoute role="admin"><AdminAddRecords /></ProtectedRoute>
-} />
 
 */
-
-<Route path="/admin/approvals" element={
-  <ProtectedRoute role="admin"><AdminApprovals /></ProtectedRoute>
-} />

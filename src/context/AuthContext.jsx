@@ -1,17 +1,18 @@
 // src/context/AuthContext.jsx
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext();
+const AuthContext = createContext();  
 
 export const AuthProvider = ({ children }) => {
+
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [userInfo, setUserInfo] = useState({ role: '', name: '', email: '', course: '' });
 
   useEffect(() => {
     if (token) {
       try {
-        const decoded = jwt_decode(token);
+        const decoded = jwtDecode(token);
         setUserInfo({
           email: decoded.email,
           role: decoded.role,
