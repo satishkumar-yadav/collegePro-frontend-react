@@ -104,7 +104,7 @@ docker-compose up --build
 
 ## 🌍 Deployed Link
 
-> http://your-aws-ec2-link
+> https://collegepro-cms.netlify.app/
 
 ## 👨‍💻 Author
 

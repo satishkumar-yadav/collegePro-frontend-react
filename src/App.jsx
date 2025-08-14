@@ -1,44 +1,6 @@
-
-//import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-//import AdminPanel from './AdminDashboard';
-//import Dashboard from './Dashboard';
-//import Home from './Home'; 
-import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import AppRoutes from './Router';
-// import Router from './router';  
-
-export default function App() { 
-  return (
-
-     <AuthProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
-    </AuthProvider>
-  
-/*
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
-*/
-
-  );
-}
-
-
-/* updated
-
-import AppRouter from './router';
-
-function App() {
+import './index.css';
+import AppRouter from "./routes/AppRouter";
+import "./styles/custom.css";
+export default function App() {
   return <AppRouter />;
 }
-
-export default App;
-
-*/

@@ -1,85 +1,58 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useJwtDecode from "../hooks/useJwtDecode";
+import AttendanceAdmin from "../sections/AttendanceAdmin";
+import FeesAdmin from "../sections/FeesAdmin";
+import LeaveAdmin from "../sections/LeaveAdmin";
+import PendingStudents from "../sections/PendingStudents";
+// we'll create sections/ folder to keep major dashboard modules
 
 export default function AdminDashboard() {
-  const [pendingUsers, setPendingUsers] = useState([]);
+  const admin = useJwtDecode();
+  const [activeMenu, setActiveMenu] = useState("students-approve");
 
-  // Fetch users awaiting approval
-  const fetchPendingUsers = async () => {
-    try {
-      const res = await axios.get("https://your-backend-url.com/api/admin/pending");
-      setPendingUsers(res.data);
-    } catch (err) {
-      console.error("Failed to load users", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchPendingUsers();
-  }, []);
-
-  const handleApprove = async (id) => {
-    try {
-      await axios.post(`https://your-backend-url.com/api/admin/approve/${id}`);
-      alert("User approved");
-      fetchPendingUsers();
-    } catch {
-      alert("Approval failed");
-    }
-  };
-
-  const handleReject = async (id) => {
-    try {
-      await axios.delete(`https://your-backend-url.com/api/admin/reject/${id}`);
-      alert("User rejected");
-      fetchPendingUsers();
-    } catch {
-      alert("Rejection failed");
-    }
-  };
+  if (!admin || admin.role !== "admin") {
+    return <div className="p-4">Unauthorized</div>;
+  }
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">👤 Pending User Approvals</h2>
-      {pendingUsers.length === 0 ? (
-        <p>No pending users.</p>
-      ) : (
-        <table className="w-full border-collapse border">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Role</th>
-              <th className="border px-4 py-2">Course</th>
-              <th className="border px-4 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pendingUsers.map((user) => (
-              <tr key={user._id}>
-                <td className="border px-4 py-2">{user.name}</td>
-                <td className="border px-4 py-2">{user.email}</td>
-                <td className="border px-4 py-2">{user.role}</td>
-                <td className="border px-4 py-2">{user.course}</td>
-                <td className="border px-4 py-2 space-x-2">
-                  <button
-                    onClick={() => handleApprove(user._id)}
-                    className="bg-green-600 text-white px-3 py-1 rounded"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleReject(user._id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded"
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div className="min-h-screen">
+      {/* Top admin header */}
+      <div className="bg-blue-900 text-white p-4 flex justify-between items-center">
+        <h2>Welcome Admin, {admin.name}</h2>
+        <div className="flex gap-4 items-center">
+          <button className="bg-blue-700 px-3 py-1 rounded" onClick={() => setActiveMenu("profile")}>Profile</button>
+          <button className="bg-red-600 px-3 py-1 rounded" onClick={() => {localStorage.clear(); window.location.href="/login"}}>Logout</button>
+        </div>
+      </div>
+      
+      {/* Admin Menu Bar */}
+      <div className="bg-gray-200 p-2 flex gap-2">
+        <div className="relative group">
+          <button className="px-3 py-1 bg-white rounded">Students</button>
+          <div className="absolute hidden group-hover:block bg-white shadow-md p-2">
+            <div onClick={() => setActiveMenu("students-register")}>Register New</div>
+            <div onClick={() => setActiveMenu("students-approve")}>Approve Self Register</div>
+            <div onClick={() => setActiveMenu("students-attendance")}>Attendance</div>
+            <div onClick={() => setActiveMenu("students-fees")}>Fees</div>
+            <div onClick={() => setActiveMenu("students-leave")}>Leave</div>
+          </div>
+        </div>
+        <div className="relative group">
+          <button className="px-3 py-1 bg-white rounded">Faculty</button>
+          {/* similar drop-down */}
+        </div>
+        <div><button onClick={()=>setActiveMenu("administration")} className="px-3 py-1 bg-white rounded">Administration</button></div>
+        <div><button onClick={()=>setActiveMenu("department")} className="px-3 py-1 bg-white rounded">Departments</button></div>
+      </div>
+
+      {/* Display Section */}
+      <div className="p-4">
+        {activeMenu === "students-approve" && <PendingStudents />}
+        {activeMenu === "students-attendance" && <AttendanceAdmin />}  //
+        {activeMenu === "students-fees" && <FeesAdmin />}
+        {activeMenu === "students-leave" && <LeaveAdmin />}
+        {/* other sections to be implemented */}
+      </div>
     </div>
   );
 }
